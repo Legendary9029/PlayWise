@@ -154,3 +154,12 @@ class PlaylistEngine:
         for _ in range(index):
             current = current.next
         return current.song
+
+    def clear_playlist(self):
+        """
+        Clears the entire playlist.
+        Time: O(1) | Space: O(1)
+        """
+        self.head = None
+        self.tail = None
+        self.size = 0
