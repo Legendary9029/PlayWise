@@ -1,4 +1,9 @@
+
 # 🎵 PlayWise: Smart Playlist Management Engine
+
+[![Version](https://img.shields.io/badge/PlayWise-v1.0-brightgreen)](https://github.com/Legendary9029/PlayWise)
+[![Python](https://img.shields.io/badge/Python-3.7%2B-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 An intelligent backend system designed for playlist control, personalized recommendations, and real-time song analytics.
 
@@ -28,7 +33,7 @@ An intelligent backend system designed for playlist control, personalized recomm
 
 ### ▶️ Run the Main Demo
 ```bash
-python main.py
+python cli_runner.py
 ```
 
 ### 🧢 Run Unit Tests
@@ -44,7 +49,7 @@ playwise_engine/
 ├── core/                 # Core modules (playlist, history, sorting, etc.)
 ├── specialized/          # Extra features (duplicates, favorites)
 ├── models/               # Song object model
-├── main.py               # Simulation entry point
+├── cli_runner.py         # Simulation entry point
 ├── test_cases.py         # Unit tests
 ├── README.md             # This file
 ```
@@ -137,3 +142,4 @@ print(data)
 - Add new data structures or algorithms in the `core/` or `specialized/` folders  
 - Write new tests in `test_cases.py` to validate your features  
 - Update the dashboard logic in `system_snapshot.py` for new analytics
+
