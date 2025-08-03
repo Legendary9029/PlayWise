@@ -18,9 +18,16 @@ class PlaylistEngine:
     def add_song(self, title, artist, duration):
         """
         Add a new song to the end of the playlist.
-        Time Complexity: O(1)
+        Time Complexity: O(n) for duplicate check, O(1) for add
         Space Complexity: O(1)
         """
+        # Prevent duplicate (by title and artist)
+        current = self.head
+        while current:
+            if current.song.title == title and current.song.artist == artist:
+                print("Song already exists. Not adding duplicate.")
+                return
+            current = current.next
         song = Song(f"{title.lower()}_{artist.lower()}", title, artist, duration)
         node = SongNode(song)
         if not self.head:
@@ -58,24 +65,33 @@ class PlaylistEngine:
             self.tail = current.prev
 
         # Step 2: Insert node at to_index
-        target = self.head
-        for _ in range(to_index):
-            target = target.next
-
-        if to_index == 0:
+        if to_index == self.size - 1:
+            # Insert at the end
+            current.prev = self.tail
+            current.next = None
+            if self.tail:
+                self.tail.next = current
+            self.tail = current
+            if self.size == 1:
+                self.head = current
+        elif to_index == 0:
+            # Insert at the head
             current.next = self.head
-            self.head.prev = current
+            if self.head:
+                self.head.prev = current
             self.head = current
             current.prev = None
+            if self.size == 1:
+                self.tail = current
         else:
+            target = self.head
+            for _ in range(to_index):
+                target = target.next
             prev_node = target.prev
             prev_node.next = current
             current.prev = prev_node
             current.next = target
             target.prev = current
-
-        if to_index == self.size - 1:
-            self.tail = current
 
     def reverse_playlist(self):
         """
@@ -105,12 +121,11 @@ class PlaylistEngine:
 
     def delete_song(self, index):
         """
-        Delete a song at the specified index from the playlist.
-        Time Complexity: O(n)
-        Space Complexity: O(1)
+        Deletes the song at the given index from the playlist.
+        Time: O(n) | Space: O(1)
         """
         if index < 0 or index >= self.size:
-            raise IndexError("Index out of bounds")
+            raise IndexError("Index out of range")
         current = self.head
         for _ in range(index):
             current = current.next
@@ -123,3 +138,19 @@ class PlaylistEngine:
         else:
             self.tail = current.prev
         self.size -= 1
+        # If list is now empty, reset head and tail
+        if self.size == 0:
+            self.head = None
+            self.tail = None
+
+    def get_song(self, index):
+        """
+        Returns the Song object at the given index.
+        Time: O(n) | Space: O(1)
+        """
+        if index < 0 or index >= self.size:
+            raise IndexError("Index out of range")
+        current = self.head
+        for _ in range(index):
+            current = current.next
+        return current.song

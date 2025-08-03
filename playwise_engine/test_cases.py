@@ -82,5 +82,34 @@ class PlayWiseTestSuite(unittest.TestCase):
         self.assertIn('Most Recently Played', data)
         self.assertIn('Song Count by Rating', data)
 
+    def test_reverse_empty_playlist(self):
+        playlist = PlaylistEngine()
+        playlist.reverse_playlist()  # Should not crash
+        self.assertEqual(playlist.display_playlist(), [])
+
+    def test_sorting_merge(self):
+        from core.sorting import merge_sort
+        playlist = PlaylistEngine()
+        playlist.add_song("C", "A", 100)
+        playlist.add_song("A", "B", 200)
+        playlist.add_song("B", "C", 150)
+        # Sort by title
+        sorted_songs = merge_sort(playlist.display_playlist(), key=lambda s: s.title)
+        self.assertEqual([s.title for s in sorted_songs], ["A", "B", "C"])
+
+    def test_large_input_performance(self):
+        import time
+        playlist = PlaylistEngine()
+        for i in range(1000):
+            playlist.add_song(f"Song{i}", f"Artist{i%10}", i)
+        lookup = InstantSongLookup()
+        for song in playlist.display_playlist():
+            lookup.add_song(song)
+        start = time.time()
+        found = lookup.get_by_title("Song500")
+        end = time.time()
+        self.assertIsNotNone(found)
+        self.assertLess(end - start, 0.01)  # Should be fast
+
 if __name__ == "__main__":
     unittest.main()

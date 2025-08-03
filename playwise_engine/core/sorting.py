@@ -1,17 +1,21 @@
 # File: core/sorting.py
 
-def merge_sort(songs, key_func, reverse=False):
+def merge_sort(songs, key=None, reverse=False):
     """
-    Generic merge sort implementation.
+    Generic merge sort implementation with key argument (like built-in sorted).
     Time Complexity: O(n log n)
     Space Complexity: O(n)
     """
+    if key is None:
+        key_func = lambda x: x
+    else:
+        key_func = key
     if len(songs) <= 1:
         return songs
 
     mid = len(songs) // 2
-    left = merge_sort(songs[:mid], key_func, reverse)
-    right = merge_sort(songs[mid:], key_func, reverse)
+    left = merge_sort(songs[:mid], key=key, reverse=reverse)
+    right = merge_sort(songs[mid:], key=key, reverse=reverse)
 
     return merge(left, right, key_func, reverse)
 
@@ -42,11 +46,11 @@ def merge(left, right, key_func, reverse):
 
 
 def sort_by_title(songs, reverse=False):
-    return merge_sort(songs, key_func=lambda s: s.title.lower(), reverse=reverse)
+    return merge_sort(songs, key=lambda s: s.title.lower(), reverse=reverse)
 
 
 def sort_by_duration(songs, reverse=False):
-    return merge_sort(songs, key_func=lambda s: s.duration, reverse=reverse)
+    return merge_sort(songs, key=lambda s: s.duration, reverse=reverse)
 
 
 def sort_by_recent(songs):
