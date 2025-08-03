@@ -1,0 +1,16 @@
+# requirements.txt
+
+# No external libraries required beyond Python Standard Library
+# but listing explicitly used modules here for clarity
+
+# Python version
+python>=3.7
+
+# Used for heap-based favorite queue
+heapq
+
+# Used for stack operations
+collections
+
+# Used for unit testing
+unittest
